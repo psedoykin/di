@@ -3,6 +3,8 @@ package com.example.pavel.diexample.ui.weather;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,6 +62,15 @@ public class WeatherDetailsFragment extends Fragment {
         helper.showAnimation(App.getAppContext(), view);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.weather_details_title));
+        }
     }
 
 }

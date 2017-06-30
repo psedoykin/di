@@ -3,6 +3,8 @@ package com.example.pavel.diexample.ui.weather;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,7 +34,6 @@ public class WeatherListFragment extends BaseFragment {
     private DayAdapter mAdapter;
 
     @BindView(R.id.list) RecyclerView mListView;
-    @BindView(R.id.bt_get) Button mGetWeatherButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,16 +45,6 @@ public class WeatherListFragment extends BaseFragment {
         mListView.setAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mListView.setLayoutManager(layoutManager);
-
-
-
-        mGetWeatherButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateWeather();
-            }
-        });
-
 
         mAdapter.setOnItemClickListener(new BaseRecycleAdapter.OnItemClickListener() {
             @Override
@@ -78,5 +69,14 @@ public class WeatherListFragment extends BaseFragment {
                 //todo
             }
         });
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.weather_title));
+        }
     }
 }

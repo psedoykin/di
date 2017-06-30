@@ -3,6 +3,8 @@ package com.example.pavel.diexample.ui.settings;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,15 @@ public class SettingsFragment extends Fragment {
         AnimationHelper helper = new AnimationHelper();
         helper.showAnimation(App.getAppContext(), view);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.setting_title));
+        }
     }
 
 }

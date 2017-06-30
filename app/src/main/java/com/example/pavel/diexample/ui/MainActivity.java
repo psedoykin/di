@@ -3,6 +3,7 @@ package com.example.pavel.diexample.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,7 +19,7 @@ import com.example.pavel.diexample.ui.weather.WeatherListFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,  FragmentManager.OnBackStackChangedListener {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
@@ -34,6 +35,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.addOnBackStackChangedListener(this);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mToggle = new ActionBarDrawerToggle(
                 this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
@@ -47,7 +54,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if (savedInstanceState == null) {
             showFragment(WeatherListFragment.newInstance());
+        } else {
+            updateActionBar();
         }
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        updateActionBar();
     }
 
     @Override
@@ -63,6 +77,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    protected void updateActionBar() {
+        if (mFragmentManager != null && mFragmentManager.getBackStackEntryCount() == 0) {
+            mToggle.setDrawerIndicatorEnabled(true);
+            mToggle.setToolbarNavigationClickListener(mOriginalToolbarListener);
+            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        } else {
+            mToggle.setDrawerIndicatorEnabled(false);
+            mToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
+        invalidateOptionsMenu();
     }
 
 
