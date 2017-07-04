@@ -5,8 +5,11 @@ import android.view.View;
 
 public class AnimationHelper {
 
+    public AnimationHelper(Context context) {
 
-    public void showAnimation(Context context, View view) {
+    }
+
+    public void showAnimation(View view) {
         //some logic
     }
 

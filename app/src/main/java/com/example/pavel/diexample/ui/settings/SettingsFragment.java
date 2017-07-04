@@ -13,6 +13,8 @@ import com.example.pavel.diexample.App;
 import com.example.pavel.diexample.R;
 import com.example.pavel.diexample.utils.AnimationHelper;
 
+import javax.inject.Inject;
+
 public class SettingsFragment extends Fragment {
 
     public final static String TAG = SettingsFragment.class.getSimpleName();
@@ -21,12 +23,16 @@ public class SettingsFragment extends Fragment {
         return new SettingsFragment();
     }
 
+    @Inject
+    public AnimationHelper mHelper;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        AnimationHelper helper = new AnimationHelper();
-        helper.showAnimation(App.getAppContext(), view);
+        App.get().plusSettingsComponent().inject(this);
+
+        mHelper.showAnimation(view);
         return view;
     }
 

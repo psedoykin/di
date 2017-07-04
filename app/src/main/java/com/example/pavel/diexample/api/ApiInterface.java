@@ -8,7 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface EndpointInterface {
+public interface ApiInterface {
 
     @GET("weather/{user_id}")
     Call<List<Day>> getWeather(@Path(value = "user_id", encoded = true) String city);

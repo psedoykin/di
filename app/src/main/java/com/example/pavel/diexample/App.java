@@ -3,9 +3,24 @@ package com.example.pavel.diexample;
 import android.app.Application;
 import android.content.Context;
 
+import com.example.pavel.diexample.di.component.AppComponent;
+import com.example.pavel.diexample.di.component.DaggerAppComponent;
+import com.example.pavel.diexample.di.component.DaggerSettingsComponent;
+import com.example.pavel.diexample.di.component.DaggerWeatherComponent;
+import com.example.pavel.diexample.di.component.DaggerWeatherDetailsComponent;
+import com.example.pavel.diexample.di.component.SettingsComponent;
+import com.example.pavel.diexample.di.component.WeatherComponent;
+import com.example.pavel.diexample.di.component.WeatherDetailsComponent;
+import com.example.pavel.diexample.di.model.AppModule;
+import com.example.pavel.diexample.di.model.RetrofitModule;
+
 public class App extends Application {
 
     private static App mInstance;
+    private AppComponent mAppComponent;
+    private WeatherComponent mWeatherComponent;
+    private WeatherDetailsComponent mWeatherDetailsComponent;
+    private SettingsComponent mSettingsComponent;
 
     @Override
     public void onCreate() {
@@ -14,7 +29,56 @@ public class App extends Application {
 
     public App() {
         mInstance = this;
+
+        mAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(mInstance))
+                .retrofitModule(new RetrofitModule())
+                .build();
+
     }
+
+    public static App get() {
+        return mInstance;
+    }
+
+    public AppComponent getAppComponent() {
+        return mAppComponent;
+    }
+
+
+    public WeatherComponent plusWeatherComponent() {
+        if (mWeatherComponent == null) {
+            mWeatherComponent = DaggerWeatherComponent.builder().appComponent(mAppComponent).build();
+        }
+        return mWeatherComponent;
+    }
+
+    public void clearWeatherComponent() {
+        mWeatherComponent = null;
+    }
+
+    public WeatherDetailsComponent plusWeatherDetailsComponent() {
+        if (mWeatherDetailsComponent == null) {
+            mWeatherDetailsComponent = DaggerWeatherDetailsComponent.builder().weatherComponent(mWeatherComponent).build();
+        }
+        return mWeatherDetailsComponent;
+    }
+
+    public void clearWeatherDetailsComponent() {
+        mWeatherDetailsComponent = null;
+    }
+
+    public SettingsComponent plusSettingsComponent() {
+        if (mSettingsComponent == null) {
+            mSettingsComponent = DaggerSettingsComponent.builder().appComponent(mAppComponent).build();
+        }
+        return mSettingsComponent;
+    }
+
+    public void clearSettingsComponent() {
+        mSettingsComponent = null;
+    }
+
 
     public static Context getAppContext() {
         return mInstance.getApplicationContext();

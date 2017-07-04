@@ -39,7 +39,7 @@ public class DayAdapter extends BaseRecycleAdapter<Day> {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mOnItemClickListener != null){
+                    if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemClick(view, getLayoutPosition());
                     }
                 }
