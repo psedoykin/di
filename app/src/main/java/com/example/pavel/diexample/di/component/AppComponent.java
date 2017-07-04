@@ -1,12 +1,11 @@
 package com.example.pavel.diexample.di.component;
 
 
-import android.content.Context;
-
-import com.example.pavel.diexample.api.ApiInterface;
 import com.example.pavel.diexample.data.WeatherRepository;
 import com.example.pavel.diexample.di.model.AppModule;
 import com.example.pavel.diexample.di.model.RetrofitModule;
+import com.example.pavel.diexample.di.model.SettingsModel;
+import com.example.pavel.diexample.di.model.WeatherModel;
 
 import javax.inject.Singleton;
 
@@ -18,8 +17,9 @@ public interface AppComponent {
 
     void inject(WeatherRepository repository);
 
-    Context getContext();
 
-    ApiInterface endpointInterface();
+    WeatherComponent plusWeatherComponent(WeatherModel model);
+
+    SettingsComponent plusSettingsComponent(SettingsModel model);
 
 }

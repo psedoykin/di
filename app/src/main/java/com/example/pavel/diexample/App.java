@@ -5,14 +5,14 @@ import android.content.Context;
 
 import com.example.pavel.diexample.di.component.AppComponent;
 import com.example.pavel.diexample.di.component.DaggerAppComponent;
-import com.example.pavel.diexample.di.component.DaggerSettingsComponent;
-import com.example.pavel.diexample.di.component.DaggerWeatherComponent;
-import com.example.pavel.diexample.di.component.DaggerWeatherDetailsComponent;
 import com.example.pavel.diexample.di.component.SettingsComponent;
 import com.example.pavel.diexample.di.component.WeatherComponent;
 import com.example.pavel.diexample.di.component.WeatherDetailsComponent;
 import com.example.pavel.diexample.di.model.AppModule;
 import com.example.pavel.diexample.di.model.RetrofitModule;
+import com.example.pavel.diexample.di.model.SettingsModel;
+import com.example.pavel.diexample.di.model.WeatherDetailsModel;
+import com.example.pavel.diexample.di.model.WeatherModel;
 
 public class App extends Application {
 
@@ -48,7 +48,7 @@ public class App extends Application {
 
     public WeatherComponent plusWeatherComponent() {
         if (mWeatherComponent == null) {
-            mWeatherComponent = DaggerWeatherComponent.builder().appComponent(mAppComponent).build();
+            mWeatherComponent = mAppComponent.plusWeatherComponent(new WeatherModel());
         }
         return mWeatherComponent;
     }
@@ -59,7 +59,7 @@ public class App extends Application {
 
     public WeatherDetailsComponent plusWeatherDetailsComponent() {
         if (mWeatherDetailsComponent == null) {
-            mWeatherDetailsComponent = DaggerWeatherDetailsComponent.builder().weatherComponent(mWeatherComponent).build();
+            mWeatherDetailsComponent = mWeatherComponent.plusWeatherDetailsComponent(new WeatherDetailsModel());
         }
         return mWeatherDetailsComponent;
     }
@@ -70,7 +70,7 @@ public class App extends Application {
 
     public SettingsComponent plusSettingsComponent() {
         if (mSettingsComponent == null) {
-            mSettingsComponent = DaggerSettingsComponent.builder().appComponent(mAppComponent).build();
+            mSettingsComponent = mAppComponent.plusSettingsComponent(new SettingsModel());
         }
         return mSettingsComponent;
     }

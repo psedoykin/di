@@ -4,9 +4,9 @@ import com.example.pavel.diexample.di.model.WeatherDetailsModel;
 import com.example.pavel.diexample.di.scope.WeatherDetailsScope;
 import com.example.pavel.diexample.ui.weather.WeatherDetailsFragment;
 
-import dagger.Component;
+import dagger.Subcomponent;
 
-@Component(dependencies = WeatherComponent.class, modules = {WeatherDetailsModel.class})
+@Subcomponent(modules = {WeatherDetailsModel.class})
 @WeatherDetailsScope
 public interface WeatherDetailsComponent {
 
