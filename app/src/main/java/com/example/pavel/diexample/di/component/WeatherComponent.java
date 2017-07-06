@@ -17,7 +17,6 @@ public interface WeatherComponent {
 
     void inject(WeatherListFragment fragment);
 
-    //todo: ?
     Context context();
 
     WeatherRepository weatherRepository();
